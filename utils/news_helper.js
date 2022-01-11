@@ -25,6 +25,12 @@ const websites = [
     base: 'https://sports.yahoo.com',
     selector: '.js-content-viewer',
   },
+  {
+    name: 'the_ringer',
+    address: 'https://www.theringer.com/nba',
+    base: 'https://www.theringer.com',
+    selector: 'h2.c-entry-box--compact__title > a',
+  },
 ];
 
 const nbaWebsite = {
