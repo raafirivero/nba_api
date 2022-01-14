@@ -25,14 +25,29 @@ const websites = [
     base: 'https://sports.yahoo.com',
     selector: '.js-content-viewer',
   },
+  {
+    name: 'the ringer',
+    address: 'https://www.theringer.com/nba',
+    base: '',
+    selector: '.l-hero h2.c-entry-box--compact__title > a',
+  },
 ];
+
+// Don't use Canadian NBA website:
+// const nbaWebsite = {
+//   name: 'nba',
+//   address: 'https://ca.nba.com/news',
+//   base: '',
+//   selectorUrl: 'article a',
+//   selectorTitle: '.card__headline',
+// };
 
 const nbaWebsite = {
   name: 'nba',
-  address: 'https://ca.nba.com/news',
-  base: '',
+  address: 'https://nba.com/news',
+  base: 'https://nba.com',
   selectorUrl: 'article a',
-  selectorTitle: '.card__headline',
+  selectorTitle: 'header span',
 };
 
 const shuffleArray = (array) => {
@@ -80,12 +95,13 @@ const getNbaData = async (website) => {
   const nbaTitle = [];
   const nbaUrl = [];
   const nbaArticles = [];
+  
   $(website.selectorTitle, html).each(function () {
     nbaTitle.push($(this).text().trim());
   });
 
   $(website.selectorUrl, html).each(function () {
-    nbaUrl.push($(this).attr('href'));
+    nbaUrl.push(website.base + $(this).attr('href'));
   });
   for (let i = 0; i < nbaTitle.length; i++) {
     const article = { title: nbaTitle[i], url: nbaUrl[i], source: 'nba' };
