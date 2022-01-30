@@ -1,11 +1,9 @@
 const newsRouter = require('express').Router();
 
 const {
-  nbaWebsite,
   websites,
   shuffleArray,
   limitBlogs,
-  getNbaData,
   getData,
   getArticles,
 } = require('../utils/news_helper');
@@ -28,6 +26,7 @@ newsRouter.get('/', async (request, response) => {
 
     shuffleArray(articles);
     response.json(limitBlogs(request, articles));
+
   } catch (err) {
     response.json({ error: err.messaage });
   }
@@ -39,12 +38,8 @@ newsRouter.get('/source/:site', async (request, response) => {
     let retArticles;
     let filterArr;
     if (mainArticle.length === 0) {
-      if (site.toLowerCase() === 'nba') {
-        retArticles = await getNbaData(nbaWebsite);
-      } else {
-        const website = websites.find((web) => web.name === site.toLowerCase());
-        retArticles = await getData(website);
-      }
+      const website = websites.find((web) => web.name === site.toLowerCase());
+      retArticles = await getData(website);
       response.json(limitBlogs(request, retArticles));
     } else {
       retArticles = mainArticle;
